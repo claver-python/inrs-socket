@@ -1,0 +1,115 @@
+#: import sys sys
+#: import Clock kivy.clock.Clock
+#: import os os
+#: import signal signal
+
+MainScreen:
+    #LoginScreen:
+    ListenScreen:
+
+<LoginScreen>:
+    name: "login_server"
+    id: login_ref
+
+    MDFloatLayout:
+        md_bg_color: 0, 0, 0, 1
+        size_hint: 1, 1
+
+        MDLabel:
+            text: "IP Address:"
+            pos_hint: {"x": 0.25, "y": 0.47}
+            adaptive_size: True
+
+        MDTextField:
+            id: ip
+            text:""
+            hint_text: "insira o ip"
+            required: True
+            helper_text: "insira um ip valido"
+            helper_text_mode: "on_error"
+            pos_hint: {"x": 0.4, "y": 0.44}
+            size_hint_x: 0.3
+            multiline: False
+
+        MDLabel:
+            text: "Porta: "
+            pos_hint: {"x": 0.25, "y": 0.37}
+            adaptive_size: True
+
+        MDTextField:
+            id: port
+            text: ""
+            hint_text: "insira a porta"
+            required: True
+            helper_text: "insira uma porta valida"
+            helper_text_mode: "on_error"
+            max_text_length: 4
+            pos_hint: {"x": 0.4, "y": 0.35}
+            size_hint_x: 0.3
+            multiline: False
+
+        MDRectangleFlatButton:
+            text: "Listen"
+            pos_hint: {"x": 0.3, "y": 0.2}
+            adaptive_size: True
+            on_release: 
+                root.server_listen()
+
+        MDRectangleFlatButton:
+            text: "Exit"
+            pos_hint: {"x": 0.6, "y": 0.2}
+            adaptive_size: True
+            on_press: root.exit_software()
+
+    FitImage:
+        source: 'logo.png'
+        size_hint: None, None
+        size: "250dp", "250dp"
+        y: login_ref.height - dp(300)
+        x: login_ref.width * 0.34
+
+
+<ListenScreen>:
+    name: "listen"
+
+    MDBoxLayout:
+        id: ref_layout
+        orientation: "vertical"
+        md_bg_color: 0, 0, 0, 1
+
+        MDBoxLayout:
+            md_bg_color: 0, 0, 0, 1
+            size_hint_y: 0.8
+            
+
+            MDLabel:
+                id: chat_history
+                pos_hit: {"x": 0.1, "y": 0.8}
+
+        MDFloatLayout:
+            md_bg_color: 0, 0.5, 1, 0.7
+            size_hint_y: 0.2
+
+
+            MDIconButton:
+                icon: 'chevron-left-box'
+                pos_hint: {"x": 0.2, "y": 0.3}
+                on_release: root.manager.current = "login_server"
+
+            MDIconButton:
+                icon: 'server-network-off'
+                pos_hint: {"x": 0.45, "y": 0.3}
+                on_release: root.server_stop()
+
+            MDIconButton:
+                icon: 'server-network'
+                pos_hint: {"x": 0.7, "y": 0.3}
+                on_release: root.server_start()
+        
+
+    FitImage:
+        source: 'room.png'
+        size_hint: None, None
+        size: "250dp", "250dp"
+        y: ref_layout.height - dp(400)
+        x: ref_layout.width * 0.33
